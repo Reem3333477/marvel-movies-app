@@ -11,7 +11,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isGridView = true;
-  String searchQuery = ''; 
+  String searchQuery = '';
+  String sharedBadgeText = '20% OFF';
 
   void toggleView() {
     setState(() {
@@ -19,9 +20,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void changeAllBadges() {
+    setState(() {
+      if (sharedBadgeText == '20% OFF') {
+        sharedBadgeText = '50% OFF';
+      } else if (sharedBadgeText == '50% OFF') {
+        sharedBadgeText = 'FREE';
+      } else {
+        sharedBadgeText = '20% OFF';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // تصفية الأفلام بناءً على العنوان أو النوع (Case-insensitive)
     final filteredMovies = movies.where((movie) {
       final query = searchQuery.toLowerCase();
       return movie.title.toLowerCase().contains(query) ||
@@ -30,7 +42,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Movie Library'), 
+        title: const Text('Movie Library'),
         actions: [
           IconButton(
             icon: Icon(isGridView ? Icons.view_list : Icons.grid_view),
@@ -40,7 +52,6 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          // شريط البحث
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
@@ -56,13 +67,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          
-          
           Expanded(
             child: filteredMovies.isEmpty
                 ? const Center(
                     child: Text(
-                      'No movies found', 
+                      'No movies found',
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                   )
@@ -70,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                     ? GridView.builder(
                         padding: const EdgeInsets.all(12),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, 
+                          crossAxisCount: 2,
                           childAspectRatio: 0.7,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
@@ -79,7 +88,9 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return MovieCard(
                             movie: filteredMovies[index],
-                            onAddToList: () {}, 
+                            onAddToList: () {},
+                            discountBadge: sharedBadgeText,
+                            onBadgeTap: changeAllBadges,
                           );
                         },
                       )
@@ -93,7 +104,9 @@ class _HomePageState extends State<HomePage> {
                               height: 140,
                               child: MovieCard(
                                 movie: filteredMovies[index],
-                                onAddToList: () {}, 
+                                onAddToList: () {},
+                                discountBadge: sharedBadgeText,
+                                onBadgeTap: changeAllBadges,
                               ),
                             ),
                           );
