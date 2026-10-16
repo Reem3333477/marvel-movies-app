@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isGridView = true;
   String searchQuery = '';
-  String sharedBadgeText = '20% OFF';
+  String sharedBadgeText = 'MARVEL';
 
   void toggleView() {
     setState(() {
@@ -22,12 +22,12 @@ class _HomePageState extends State<HomePage> {
 
   void changeAllBadges() {
     setState(() {
-      if (sharedBadgeText == '20% OFF') {
-        sharedBadgeText = '50% OFF';
-      } else if (sharedBadgeText == '50% OFF') {
-        sharedBadgeText = 'FREE';
+      if (sharedBadgeText == 'MARVEL') {
+        sharedBadgeText = 'PREMIERE';
+      } else if (sharedBadgeText == 'PREMIERE') {
+        sharedBadgeText = 'HIT';
       } else {
-        sharedBadgeText = '20% OFF';
+        sharedBadgeText = 'MARVEL';
       }
     });
   }
